@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+	<title>NEXIFY | BOOK LIST</title>
+	<link rel="stylesheet" type="text/css" href="@{/css/book.css"/>
+	<style>
+		table, th, td {
+		  border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h2>
+			<span class="font-weight-semibold">List Books</span>
+		</h2>
+	</div>
+	<hr>
+	<div>
+		<table>
+		  <thead>
+		    <tr>
+		      <th>ID</th>
+		      <th>Title</th>
+		      <th>Author</th>
+		      <th>Action</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="book : ${books}">
+		      <td th:text="${customer?.id}">&nbsp;</td>
+		      <td th:text="${customer?.title}">&nbsp;</td>
+		      <td th:text="${customer?.author}">&nbsp;</td>
+		      <td >&nbsp;</td>
+		    </tr>
+		  </tbody>
+		</table>
+	    <form method="post" action="addBook.html" th:action="@{|/book|}" th:object="${addBookPage}">  
+	    	<input type="submit" name="_eventId_mode" value="new"/>  
+	    </form>
+	</div>
+</body>
+</html>

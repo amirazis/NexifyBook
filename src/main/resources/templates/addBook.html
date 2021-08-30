@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>NEXIFY | ADD BOOK</title>
+</head>
+<body>
+	<form action="#" th:object="${addBookPage}" enctype="multipart/form-data" th:action="@{|/addBook|}" method="post">
+		<div>
+			<table>
+				<tr>
+					<th align="left">Title : </th>
+					<th align="left"><input type="text" required th:field="*{title}"></th>
+				</tr>
+				<tr>
+					<th align="left">Author : </th>
+					<th align="left"><input type="text" required th:field="*{author}"></th>
+				</tr>
+			</table>
+			<input type="submit" name="_eventId_mode" value="save"/>  
+		</div>
+	</form>
+</body>
+</html>
