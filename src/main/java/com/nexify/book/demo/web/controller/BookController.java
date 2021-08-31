@@ -1,6 +1,5 @@
 package com.nexify.book.demo.web.controller;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -12,11 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nexify.book.demo.domain.Book;
@@ -39,25 +36,18 @@ public class BookController {
 	
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String landingPage(@ModelAttribute(ATT_BOOK)BookDto bookDto,Model model){
-		//if (!model.containsAttribute(ATT_BOOK)) {
-			model.addAttribute(ATT_BOOK,bookService.findAll());
-		//}
-		System.out.println(bookService.findAll());
-		System.out.println(model);
+		model.addAttribute(ATT_BOOK,bookService.findAll());
 		return TEMPLATE_LIST_BOOK;
 	} 
 	
 	@PostMapping(value = { "/book" })
 	public String bookList(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
 			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
-		System.out.println("37 " + _eventId_mode);
 		if (_eventId_mode.equalsIgnoreCase("new")) {
 			return TEMPLATE_ADD_BOOK;
-		} else if (_eventId_mode.equalsIgnoreCase("update")) {
-			System.out.println("50");
+		} else if (_eventId_mode.equalsIgnoreCase("edit")) {
 			return TEMPLATE_UPDATE_BOOK;
 		} else if (_eventId_mode.equalsIgnoreCase("delete")) {
-			System.out.println("53");
 			return "redirect:/";
 		} else {
 			return "redirect:/";
@@ -66,7 +56,6 @@ public class BookController {
 	
     @RequestMapping(value = {"/addBook"}, method = RequestMethod.GET)
 	public String getAddBook(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto,Model model){
-		System.out.println("46");
 		if (!model.containsAttribute(ATT_ADD_BOOK_PAGE)) {
 			model.addAttribute(ATT_ADD_BOOK_PAGE,bookDto);
 		}
@@ -76,7 +65,6 @@ public class BookController {
 	@PostMapping(value = { "/addBook" })
 	public String getAddBook(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
 			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
-		System.out.println("56");
 		if (_eventId_mode.equalsIgnoreCase("save")) {
 			Book book = new Book();
 			if (bookDto.getAuthor() != null){
@@ -96,27 +84,23 @@ public class BookController {
 	
     @GetMapping(value = {"/updateBook/{id}"})
 	public String getUpdateBook(@RequestParam(value="id", required = false) Long id,@ModelAttribute(ATT_UPDATE_BOOK_PAGE)BookDto bookDto,Model model){
-		System.out.println("97 " + bookDto.getId() + " " + id);
-		//if (id != null) {
-			Optional<Book> bookEntity = bookService.findById(bookDto.getId());
-			if (bookEntity.isPresent()) {
-				Book book = bookEntity.get();
-				bookDto.setId(book.getId());
-				bookDto.setAuthor(book.getAuthor());
-				bookDto.setTitle(book.getTitle());
-			}
-		//}
-			System.out.println("109 " + bookDto);
+		Optional<Book> bookEntity = bookService.findById(bookDto.getId());
+		if (bookEntity.isPresent()) {
+			Book book = bookEntity.get();
+			bookDto.setId(book.getId());
+			bookDto.setAuthor(book.getAuthor());
+			bookDto.setTitle(book.getTitle());
+		}
 		if (!model.containsAttribute(ATT_UPDATE_BOOK_PAGE)) {
 			model.addAttribute(ATT_UPDATE_BOOK_PAGE,bookDto);
 		}
+		model.addAttribute("id", bookDto.getId());
 		return TEMPLATE_UPDATE_BOOK; 
 	} 
     
     @RequestMapping(value = { "/updateBook/{id}" }, method = RequestMethod.POST)
 	public String getUpdateBook(@ModelAttribute(ATT_UPDATE_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
 			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
-		System.out.println("119 " + bookDto);
 		if (_eventId_mode.equalsIgnoreCase("update")) {
 			Book book = new Book();
 			if (bookDto.getId() != null){
@@ -136,7 +120,7 @@ public class BookController {
 			}
 			bookService.save(book);
 		}
-		return TEMPLATE_LIST_BOOK;
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.GET)
