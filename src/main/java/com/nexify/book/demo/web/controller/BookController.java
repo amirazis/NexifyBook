@@ -21,6 +21,7 @@ import com.nexify.book.demo.dto.BookDto;
 import com.nexify.book.demo.service.BookService;
 
 @Controller
+@RequestMapping({ "/book","/","" })
 public class BookController {
 
 	private static final String TEMPLATE_LIST_BOOK = "bookLandingPage";
@@ -40,7 +41,7 @@ public class BookController {
 		return TEMPLATE_LIST_BOOK;
 	} 
 	
-	@PostMapping(value = { "/book" })
+	@PostMapping(value = { "/","" })
 	public String bookList(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
 			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
 		if (_eventId_mode.equalsIgnoreCase("new")) {
@@ -48,7 +49,7 @@ public class BookController {
 		} else if (_eventId_mode.equalsIgnoreCase("edit")) {
 			return TEMPLATE_UPDATE_BOOK;
 		} else if (_eventId_mode.equalsIgnoreCase("delete")) {
-			return "redirect:/";
+			return TEMPLATE_LIST_BOOK;
 		} else {
 			return "redirect:/";
 		}
@@ -58,7 +59,7 @@ public class BookController {
 	public String getAddBook(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto,Model model){
 		if (!model.containsAttribute(ATT_ADD_BOOK_PAGE)) {
 			model.addAttribute(ATT_ADD_BOOK_PAGE,bookDto);
-		}
+		} 
 		return TEMPLATE_ADD_BOOK; 
 	} 
     
@@ -79,7 +80,7 @@ public class BookController {
 			}
 			bookService.save(book);
 		}
-		return TEMPLATE_LIST_BOOK;
+		return "redirect:/";
 	}
 	
     @GetMapping(value = {"/updateBook/{id}"})
@@ -123,13 +124,21 @@ public class BookController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.GET)
+	@GetMapping(value = {"/delete/{id}"})
 	public String getDeleteBook(@PathVariable(name = "id") Long id,@ModelAttribute(ATT_BOOK)BookDto bookDto,Model model){
-		//if (!model.containsAttribute(ATT_BOOK)) {
-			//model.addAttribute(ATT_BOOK,bookService.findAll());
-		//}
-		bookService.findById(id); System.out.println("139");
-		return TEMPLATE_LIST_BOOK;
+		Optional<Book> bookEntity = bookService.findById(id);
+		if (bookEntity.isPresent()) {
+			Book book = bookEntity.get();
+			bookDto.setId(book.getId());
+			bookDto.setAuthor(book.getAuthor());
+			bookDto.setTitle(book.getTitle());
+		}
+		if (!model.containsAttribute(ATT_BOOK)) {
+			model.addAttribute(ATT_BOOK,bookDto);
+		}
+		model.addAttribute("id", id);
+		System.out.println("here "+bookDto);
+		return "redirect:/book";
 	} 
 	
 	@RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.POST)
