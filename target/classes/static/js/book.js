@@ -1,6 +1,6 @@
 console.log("inside js");
 
-	 var _jqueryConfirmation = function(s){ 
+	// var _jqueryConfirmation = function(s){ 
 			var x = '';
 			var y = '';
 
@@ -33,4 +33,4 @@ console.log("inside js");
 	 			    	}
 	 				})			   	
 	       });
-	    };
+	   // };

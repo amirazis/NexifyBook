@@ -136,18 +136,18 @@ public class BookController {
 		if (!model.containsAttribute(ATT_BOOK)) {
 			model.addAttribute(ATT_BOOK,bookDto);
 		}
-		model.addAttribute("id", id);
-		System.out.println("here "+bookDto);
+		model.addAttribute("id", id); 
+		bookService.deleteById(id);
 		return "redirect:/book";
 	} 
 	
-	@RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.POST)
-	public String postDeleteBook(@PathVariable(name = "id") Long id,@ModelAttribute(ATT_BOOK)BookDto bookDto,Model model){
-		//if (!model.containsAttribute(ATT_BOOK)) {
-			//model.addAttribute(ATT_BOOK,bookService.findAll());
-		//}
-		bookService.deleteById(id);System.out.println("148");
-		return TEMPLATE_LIST_BOOK;
-	} 
+//	@RequestMapping(value = {"/delete/{id}"}, method = RequestMethod.POST)
+//	public String postDeleteBook(@PathVariable(name = "id") Long id,@ModelAttribute(ATT_BOOK)BookDto bookDto,Model model){
+//		//if (!model.containsAttribute(ATT_BOOK)) {
+//			//model.addAttribute(ATT_BOOK,bookService.findAll());
+//		//}
+//		bookService.deleteById(id);System.out.println("148");
+//		return TEMPLATE_LIST_BOOK;
+//	} 
 
 }
