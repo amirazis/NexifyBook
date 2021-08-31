@@ -10,6 +10,7 @@ import com.nexify.book.demo.domain.Book;
 public interface BookService {
 
 //	DataTablesOutput<Book> findAll(DataTablesInput input);
-
+	Book save (Book book);
 	List<Book> findAll();
+	Book deleteById(Long id);
 }

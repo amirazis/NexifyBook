@@ -32,4 +32,17 @@ public class BookServiceImpl implements BookService {
 		return (List<Book>) bookRepository.findAll();
 	}
 
+	@Override
+	public Book save(Book book) {
+		// TODO Auto-generated method stub
+		return bookRepository.save(book);
+	}
+
+	@Override
+	public Book deleteById(Long id) {
+		// TODO Auto-generated method stub
+		bookRepository.deleteById(id);
+		return null;
+	}
+
 }

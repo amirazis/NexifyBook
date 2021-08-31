@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @Configuration
 @SpringBootApplication
-@ComponentScan({"com.nexify.book.demo.controller"})
+//@ComponentScan({"com.nexify.book.demo.controller"})
 //@EnableTransactionManagement
 //@EnableJpaRepositories(repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class,
 //					basePackages = {"com.nexify.book.demo.repository"})
