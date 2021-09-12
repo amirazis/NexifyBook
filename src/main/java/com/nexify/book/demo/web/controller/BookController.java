@@ -40,20 +40,20 @@ public class BookController {
 		model.addAttribute(ATT_BOOK,bookService.findAll());
 		return TEMPLATE_LIST_BOOK;
 	} 
-	
-	@PostMapping(value = { "/","" })
-	public String bookList(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
-			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
-		if (_eventId_mode.equalsIgnoreCase("new")) {
-			return TEMPLATE_ADD_BOOK;
-		} else if (_eventId_mode.equalsIgnoreCase("edit")) {
-			return TEMPLATE_UPDATE_BOOK;
-		} else if (_eventId_mode.equalsIgnoreCase("delete")) {
-			return TEMPLATE_LIST_BOOK;
-		} else {
-			return "redirect:/";
-		}
-	}
+//	
+//	@PostMapping(value = { "/","" })
+//	public String bookList(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto, Model model, BindingResult result,
+//			RedirectAttributes redirectAttributes, Locale locale, @RequestParam(required = false) String _eventId_mode) {
+//		if (_eventId_mode.equalsIgnoreCase("new")) {
+//			return TEMPLATE_ADD_BOOK;
+//		} else if (_eventId_mode.equalsIgnoreCase("edit")) {
+//			return TEMPLATE_UPDATE_BOOK;
+//		} else if (_eventId_mode.equalsIgnoreCase("delete")) {
+//			return TEMPLATE_LIST_BOOK;
+//		} else {
+//			return "redirect:/";
+//		}
+//	}
 	
     @RequestMapping(value = {"/addBook"}, method = RequestMethod.GET)
 	public String getAddBook(@ModelAttribute(ATT_ADD_BOOK_PAGE)BookDto bookDto,Model model){

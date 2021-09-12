@@ -39,7 +39,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Book deleteById(Long id) {
+	public Boolean deleteById(Long id) {
 		// TODO Auto-generated method stub
 		bookRepository.deleteById(id);
 		return null;
